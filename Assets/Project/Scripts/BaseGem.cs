@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public abstract class BaseGem : MonoBehaviour
 {
@@ -15,16 +15,17 @@ public abstract class BaseGem : MonoBehaviour
     public event Action onClicked;
     private void OnEnable()
     {
-        gemButton.clicked += OnGemClicked;
+        gemButton.onClick.AddListener(OnGemClicked);
     }
 
     private void OnDisable()
     {
-        gemButton.clicked += OnGemClicked;
+        gemButton.onClick.RemoveListener(OnGemClicked);
     }
 
-    private void OnGemClicked()
+    public void OnGemClicked()
     {
+        Debug.Log("Clicked");
         onClicked?.Invoke();
     }
 

@@ -10,17 +10,17 @@ public class Cell
 
     public bool IsFull => existingGem != null;
 
-    public void Set(BaseGem gemPrefab, Vector2 position)
+    public void Set(BaseGem gemPrefab, Vector2 position, RectTransform gemsContainer)
     {
         if (existingGem != null)
         {
-            existingGem.Destroy(() => CreateNewGem(gemPrefab, position));
+            existingGem.Destroy(() => CreateNewGem(gemPrefab, position, gemsContainer));
             existingGem.onClicked -= OnGemClicked;
-            UnityEngine.Object.Destroy(existingGem);
+            UnityEngine.Object.Destroy(existingGem.gameObject);
             return;
         }
 
-        CreateNewGem(gemPrefab, position);
+        CreateNewGem(gemPrefab, position, gemsContainer);
     }
 
     private void OnGemClicked()
@@ -35,9 +35,9 @@ public class Cell
         return score;
     }
 
-    private void CreateNewGem(BaseGem gemPrefab, Vector2 position)
+    private void CreateNewGem(BaseGem gemPrefab, Vector2 position, RectTransform gemsContainer)
     {
-        existingGem = UnityEngine.Object.Instantiate(gemPrefab, position, Quaternion.identity);
+        existingGem = UnityEngine.Object.Instantiate(gemPrefab, position, Quaternion.identity, gemsContainer);
         existingGem.OnCreated();
         existingGem.onClicked += OnGemClicked;
     }
@@ -57,7 +57,8 @@ public class Cell
         if (existingGem != null)
         {
             existingGem.onClicked -= OnGemClicked;
-            UnityEngine.Object.Destroy(existingGem);
+            UnityEngine.Object.Destroy(existingGem.gameObject);
+            existingGem = null;
         }
     }
 }

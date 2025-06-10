@@ -7,14 +7,17 @@ public class Board
     private Cell[,] cells;
     private Dictionary<string, BaseGem> contentDictionary;
     private Action<BaseGem> onCellClicked;
+    private RectTransform gemsContainer;
 
     public int Rows { get; private set; }
     public int Columns { get; private set; }
 
-    public Board(int rows, int columns, Dictionary<string, BaseGem> contentDictionary, Action<BaseGem> onCellClicked)
+    public Board(int rows, int columns, Dictionary<string, BaseGem> contentDictionary, RectTransform gemsContainer, Action<BaseGem> onCellClicked)
     {
         this.contentDictionary = contentDictionary;
         this.onCellClicked = onCellClicked;
+        this.gemsContainer = gemsContainer;
+
         Rows = rows;
         Columns = columns;
         cells = new Cell[rows, columns];
@@ -46,7 +49,8 @@ public class Board
         if (!IsInBounds(row, column))
             return;
 
-        cells[row, column].Set(contentDictionary[content], new Vector2(row, column));
+        var spawnPosition = gemsContainer.position + new Vector3(row, column, 0);
+        cells[row, column].Set(contentDictionary[content], new Vector2(row, column), gemsContainer);
     }
 
     public bool IsInBounds(int row, int column)

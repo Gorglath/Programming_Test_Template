@@ -1,7 +1,6 @@
 using System;
-using System.Dynamic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class NormalGem : BaseGem
 {
@@ -11,15 +10,14 @@ public class NormalGem : BaseGem
     [SerializeField]
     private Sprite[] normalTypeSprites;
 
-    [SerializeField]
     private int normalType;
- 
+
     public int NormalType => normalType;
 
     public override void OnCreated()
     {
-        var selectedTypoo = UnityEngine.Random.Range(0, normalTypeSprites.Length);
-        normalTypeImage.sprite = normalTypeSprites[selectedTypoo];
+        normalType = UnityEngine.Random.Range(0, normalTypeSprites.Length);
+        normalTypeImage.sprite = normalTypeSprites[normalType];
     }
 
     public void Trigger()

@@ -16,6 +16,9 @@ public class Main : MonoBehaviour
     [SerializeField]
     private string initialCellContent;
 
+    [SerializeField]
+    private RectTransform gemsContainer;
+
     private Board board;
 
     private void Awake()
@@ -28,7 +31,7 @@ public class Main : MonoBehaviour
             contentDictionary.Add(key, value);
         }
 
-        board = new Board((int)boardSize.x, (int)boardSize.y, contentDictionary, OnCellClicked);
+        board = new Board((int)boardSize.x, (int)boardSize.y, contentDictionary, gemsContainer, OnCellClicked);
 
         if (string.IsNullOrEmpty(initialCellContent))
         {
@@ -69,6 +72,11 @@ public class Main : MonoBehaviour
         {
             for (var j = 0; j < boardSize.y; j++)
             {
+                if(board.GetCell(i, j).IsFull)
+                {
+                    continue;
+                }
+
                 var randomContentIndex = UnityEngine.Random.Range(0, contentNameLinkedArray.Length);
                 board.SetCell(i, j, contentNameLinkedArray[randomContentIndex]);
             }
